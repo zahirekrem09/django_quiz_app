@@ -4,10 +4,15 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=200, verbose_name='Category Name')
 
-    def __str__(self): self.name
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name_plural = 'Categories'
+
+    @property
+    def quiz_count(self):
+        return self.quiz_set.count()
 
 
 class Quiz(models.Model):
@@ -15,7 +20,12 @@ class Quiz(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self): self.title
+    def __str__(self):
+        return self.title
+
+    @property
+    def question_count(self):
+        return self.question_set.count()
 
     class Meta:
         verbose_name_plural = 'Quizzes'
@@ -42,7 +52,8 @@ class Question(Update):
     date_created = models.DateTimeField(auto_now_add=True)
     #updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self): self.title
+    def __str__(self):
+        return self.title
 
 
 class Answer(Update):
